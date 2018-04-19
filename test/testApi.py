@@ -1,38 +1,50 @@
-#! /usr/bin/env python2
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import sys
+from binascii import (hexlify, unhexlify)
+
+sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/../src/")
+
+
 def test_fast():
     import pySM4 as sm4
-    from binascii import hexlify as hexs,unhexlify as unhexs
-    key=unhexs("0123456789ABCDEFFEDCBA9876543210")
-    clear= key
-    cipher=clear 
-    for i in xrange(10**6):
-        cipher  = sm4.encrypt(key, cipher)
+    key = unhexlify("0123456789ABCDEFFEDCBA9876543210")
+    clear = key
+    cipher = clear
+    for i in range(10 ** 6):
+        cipher = sm4.encrypt(key, cipher)
 
-    print hexs(cipher)
-    clear=unhexs("595298c7c6fd271f0402f804c33d3f66")
-    cipher=clear 
-    for i in xrange(10**6):
-        cipher  = sm4.decrypt(key, cipher)
+    print(hexlify(cipher))
+    clear = unhexlify("595298c7c6fd271f0402f804c33d3f66")
+    cipher = clear
+    for i in range(10 ** 6):
+        cipher = sm4.decrypt(key, cipher)
 
-    print hexs(cipher)
+    print(hexlify(cipher))
 
-def tests_low():
+
+def test_slow():
     from slowSM4 import SM4
     from time import time
-    KEY = "01 23 45 67 89 ab cd ef fe dc ba 98 76 54 32 10".replace(" ","")
-    DATA = unhexs(KEY)
-    obj = SM4(KEY)
+    key = "01 23 45 67 89 ab cd ef fe dc ba 98 76 54 32 10".replace(" ", "")
+    obj = SM4(key)
     s1 = time()
-    res = obj.encrypt(DATA)
-    for i in xrange(9999):
+    res = unhexlify(key)
+    for i in range(10 ** 6):
         res = obj.encrypt(res)
-        if i% 1000 ==500:
-            print 500 / (time()-s1) , "times/s"
-            s1=time()
-            print(hexs(res))
-    print hexs(res)
-    #一百万次加密后 X"59 52 98 c7 c6 fd 27 1f 04 02 f8 04 c3 3d 3f 66"
+        if i % 1000 == 500:
+            print("{} times/s".format(500 / (time() - s1)))
+            s1 = time()
+            try:
+                print(hexlify(res))
+            except Exception:
+                print(res.encode("base64"))
+    print(hexlify(res))
+    # 一百万次加密后 X"59 52 98 c7 c6 fd 27 1f 04 02 f8 04 c3 3d 3f 66"
+
 
 if __name__ == '__main__':
-    test_fast()
+    # test_fast()
     test_slow()
