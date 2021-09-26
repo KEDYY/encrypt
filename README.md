@@ -1,7 +1,7 @@
 encrypt
 =======
 
-SM4算法规范文档参见[SM4 算法标准Google Doc](https://drive.google.com/file/d/0B0o25hRlUdXcbzdjT0hrYkkwUjg/edit?usp=sharing)
+SM4算法规范文档参见[SM4 算法标准Google Doc](https://drive.google.com/file/d/0B0o25hRlUdXcbzdjT0hrYkkwUjg/view?resourcekey=0-OzBqM1ScEwu795GByY0g8Q)
 ## 支持版本
 * Python 2.6 no test
 * Python 2.7 Pass
